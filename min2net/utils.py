@@ -78,7 +78,21 @@ def load_raw(dataset):
             print('\nDone!')
         except:
             raise Exception('Path Error: file does not exist, please direccly download at http://bnci-horizon-2020.eu/database/data-sets')
+    elif dataset == 'MBD2117':
+        try:
+            save_path = folder_name + '/' + dataset + '/raw'
+            if save_path is not None:
+                if not os.path.exists(save_path):
+                    os.makedirs(save_path)
+            print("===Download is being processed")
+            file_name = "MindBigDataVisualMnist2021-Muse2v0.17.zip"
+            url = f"https://vivancos.net/opendb/{file_name}"
+            print('save to: '+save_path+file_name)
+            wget.download(url, save_path+file_name)
 
+            print('Done!')
+        except:
+            raise Exception(f'Path Error: file does not exist, please direccly download at https://vivancos.net/opendb/{file_name}')
 class DataLoader:
     def __init__(self, dataset, train_type=None, data_type=None, num_class=2, subject=None, data_format=None, dataset_path='/datasets', **kwargs):
 
