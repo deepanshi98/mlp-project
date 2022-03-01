@@ -65,11 +65,11 @@ CONSTANT = {
         'sel_chs': ['FC5', 'FC3', 'FC1', 'FC2', 'FC4','FC6', 'C5', 'C3', 'C1', 'Cz', 'C2', 'C4', 'C6', 'CP5', 
                     'CP3', 'CP1', 'CPz', 'CP2', 'CP4', 'CP6']  
     },
-    'MBD2117': {
-        'raw_path': 'datasets/MBD2117/raw', 
+    'MBDMNIST17': {
+        'raw_path': 'datasets/MBDMNISTv17/raw', 
         'n_subjs': 1,
         'n_trials': 18000,
-        'n_trials_per_class': 1500,
+        'n_trials_per_class': None,
         'n_chs': 4,
         'orig_smp_freq': 256,                  # Original sampling frequency (Hz)
         'trial_len': 2,                        # 2s
@@ -80,5 +80,21 @@ CONSTANT = {
         },
         'orig_chs': ["TP9","AF7","AF8", "TP10"],
         'sel_chs': ["TP9","AF7","AF8", "TP10"] 
+    },
+    'MBDMNIST16Cut2': {
+        'raw_path': 'datasets/MBDMNIST16Cut2/raw', 
+        'n_subjs': 1,
+        'n_trials': 11387,
+        'n_trials_per_class': None,
+        'n_chs': 2,
+        'orig_smp_freq': 256,                  # Original sampling frequency (Hz)
+        'trial_len': 2,                        # 2s
+        'MI': {
+            'start': 0,                        
+            'stop': 2,                         
+            'len': 2,                          
+        },
+        'orig_chs': ["TP9", "TP10"],
+        'sel_chs': ["TP9", "TP10"] 
     },
 }

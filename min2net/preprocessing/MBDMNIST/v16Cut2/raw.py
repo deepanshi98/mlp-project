@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from min2net.utils import resampling
 from min2net.preprocessing.config import CONSTANT
-CONSTANT = CONSTANT['MBD2117']
+CONSTANT = CONSTANT['MBDMNIST16Cut2']
 n_chs = CONSTANT['n_chs']
 n_trials = 2*CONSTANT['n_trials']
 window_len = CONSTANT['trial_len']*CONSTANT['orig_smp_freq']
@@ -13,9 +13,9 @@ orig_smp_freq = CONSTANT['orig_smp_freq']
 def read_raw(PATH, subject, training, num_class, id_chosen_chs):
     if training:
         print("reading data..")
-        df = pd.read_csv(PATH+"MindBigDataVisualMnist2021-Muse2v0.17.zip", header=None)
+        df = pd.read_csv(PATH+"/MindBigDataVisualMnist2021-Muse2v0.16Cut2.zip", header=None)
     else:
-        df = pd.read_csv(PATH+"MindBigDataVisualMnist2021-Muse2v0.17.zip", header=None)
+        df = pd.read_csv(PATH+"/MindBigDataVisualMnist2021-Muse2v0.16Cut2.zip", header=None)
     data = df[df[2]!=-1][
                 range(788,788+ n_chs*trial_len*orig_smp_freq)
                 ].to_numpy().reshape(-1, n_chs, trial_len*orig_smp_freq)
