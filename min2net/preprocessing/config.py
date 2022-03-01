@@ -78,7 +78,7 @@ CONSTANT = {
             'stop': 2,                         
             'len': 2,                          
         },
-        'orig_chs': ["TP9","FP1","FP2", "TP10"],
-        'sel_chs': ["TP9","FP1","FP2", "TP10"] 
+        'orig_chs': ["TP9","AF7","AF8", "TP10"],
+        'sel_chs': ["TP9","AF7","AF8", "TP10"] 
     },
 }
