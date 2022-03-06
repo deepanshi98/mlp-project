@@ -28,6 +28,7 @@ class EEGNet:
                 verbose=1,
                 log_path='logs',
                 model_name='EEGNet',
+                data_format = 'channels_first',
                 **kwargs):
         self.input_shape = input_shape
         self.num_class = num_class
@@ -44,6 +45,7 @@ class EEGNet:
         self.verbose = verbose
         self.log_path = log_path
         self.model_name = model_name
+        self.data_format = data_format
         self.weights_dir = log_path+'/'+model_name+'_out_weights.h5'
         self.csv_dir = log_path+'/'+model_name+'_out_log.log'
         self.time_log = log_path+'/'+model_name+'_time_log.csv'
@@ -56,7 +58,6 @@ class EEGNet:
         self.norm_rate = 0.25
         self.dropout_rate = 0.5
         self.f1_average = 'binary' if self.num_class == 2 else 'macro'
-        self.data_format = 'channels_first'
         self.shuffle = False
         self.metrics = 'accuracy'
         self.monitor = 'val_loss'
