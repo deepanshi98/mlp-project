@@ -15,7 +15,7 @@ MI_len = CONSTANT['MI']['len']
 def subject_dependent_setting(k_folds, pick_smp_freq, bands, order, save_path, num_class=2, sel_chs=None):
     sel_chs = CONSTANT['sel_chs'] if sel_chs == None else sel_chs
     n_folds = k_folds
-    save_path = save_path + '/MBDMIST/v16Cut2/time_domain/{}_class/subject_dependent'.format(num_class)
+    save_path = save_path + '/MBDMISTv16Cut2/time_domain/{}_class/subject_dependent'.format(num_class)
     n_chs = len(sel_chs)
 
     X_train_all, y_train_all = np.zeros((n_subjs, n_trials, n_chs, int(MI_len*pick_smp_freq))), np.zeros((n_subjs, n_trials))
