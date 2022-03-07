@@ -36,20 +36,32 @@ def subject_dependent_setting(k_folds, pick_smp_freq, bands, order, save_path, n
         if len(X_tr.shape) != 3:
             raise Exception('Dimension Error, must have 3 dimension')
 
-        skf = StratifiedKFold(n_splits=n_folds, random_state=42, shuffle=True)
-        for fold, (train_index, val_index) in enumerate(skf.split(X_tr , y_tr)):
-            print('FOLD:', fold+1, 'TRAIN:', len(train_index), 'VALIDATION:', len(val_index))
-            X_tr_cv, X_val_cv = X_tr[train_index], X_tr[val_index]
-            y_tr_cv, y_val_cv = y_tr[train_index], y_tr[val_index]
-
+        if n_folds == 1:
+            X_tr_cv, X_val_cv, y_tr_cv, y_val_cv = train_test_split(X_tr, y_tr, test_size = 0.2, random_state= 42, shuffle=True)
             print('Band-pass filtering from {} to {} Hz.'.format(bands[0],  bands[1]))
             X_tr_fil = butter_bandpass_filter(X_tr_cv,  bands[0],  bands[1], pick_smp_freq, order)
             X_val_fil = butter_bandpass_filter(X_val_cv,  bands[0],  bands[1], pick_smp_freq, order)
             X_te_fil = butter_bandpass_filter(X_te,  bands[0],  bands[1], pick_smp_freq, order)
             print('Check dimension of training data {}, val data {} and testing data {}'.format(X_tr_fil.shape, X_val_fil.shape, X_te_fil.shape))
-            SAVE_NAME = 'S{:03d}_fold{:03d}'.format(person+1, fold+1)
+            SAVE_NAME = 'S{:03d}'.format(person+1)
             __save_data_with_valset(save_path, SAVE_NAME, X_tr_fil, y_tr_cv, X_val_fil, y_val_cv, X_te_fil, y_te)
-            print('The preprocessing of subject {} from fold {} is DONE!!!'.format(person+1, fold+1))
+            print('The preprocessing of subject {} from is DONE!!!'.format(person+1))
+
+        else:    
+            skf = StratifiedKFold(n_splits=n_folds, random_state=42, shuffle=True)
+            for fold, (train_index, val_index) in enumerate(skf.split(X_tr , y_tr)):
+                print('FOLD:', fold+1, 'TRAIN:', len(train_index), 'VALIDATION:', len(val_index))
+                X_tr_cv, X_val_cv = X_tr[train_index], X_tr[val_index]
+                y_tr_cv, y_val_cv = y_tr[train_index], y_tr[val_index]
+
+                print('Band-pass filtering from {} to {} Hz.'.format(bands[0],  bands[1]))
+                X_tr_fil = butter_bandpass_filter(X_tr_cv,  bands[0],  bands[1], pick_smp_freq, order)
+                X_val_fil = butter_bandpass_filter(X_val_cv,  bands[0],  bands[1], pick_smp_freq, order)
+                X_te_fil = butter_bandpass_filter(X_te,  bands[0],  bands[1], pick_smp_freq, order)
+                print('Check dimension of training data {}, val data {} and testing data {}'.format(X_tr_fil.shape, X_val_fil.shape, X_te_fil.shape))
+                SAVE_NAME = 'S{:03d}_fold{:03d}'.format(person+1, fold+1)
+                __save_data_with_valset(save_path, SAVE_NAME, X_tr_fil, y_tr_cv, X_val_fil, y_val_cv, X_te_fil, y_te)
+                print('The preprocessing of subject {} from fold {} is DONE!!!'.format(person+1, fold+1))
 
 
 def __load_MBDMNIST17(PATH, subject, new_smp_freq, num_class, id_chosen_chs):
