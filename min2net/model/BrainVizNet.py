@@ -151,10 +151,12 @@ class BrainVizNet:
         
         model.compile(optimizer=self.optimizer, loss=self.loss, metrics=self.metrics, loss_weights=self.loss_weights)
 
-        model.fit(x=EEG_train, y=[MNIST_train,y_train,y_train],
+        history = model.fit(x=EEG_train, y=[MNIST_train,y_train,y_train],
                           batch_size=self.batch_size, shuffle=self.shuffle,
                           epochs=self.epochs, validation_data=(EEG_val, [MNIST_val,y_val,y_val]),
                           callbacks=[checkpointer,csv_logger,reduce_lr,es, time_callback])
+
+        return history
         
     def predict(self, EEG_test, MNIST_test, y_test):
 
