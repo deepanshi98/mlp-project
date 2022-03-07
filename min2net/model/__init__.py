@@ -1,3 +1,4 @@
+from .BrainVizNet import BrainVizNet
 from .MIN2Net import MIN2Net
 from .MIN2Net_without_triplet import MIN2Net_without_triplet
 from .DeepConvNet import DeepConvNet

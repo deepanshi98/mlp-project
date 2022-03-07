@@ -16,11 +16,16 @@ def read_raw(PATH, subject, training, num_class, id_chosen_chs):
         df = pd.read_csv(PATH+"/MindBigDataVisualMnist2021-Muse2v0.16Cut2.zip", header=None)
     else:
         df = pd.read_csv(PATH+"/MindBigDataVisualMnist2021-Muse2v0.16Cut2.zip", header=None)
-    data = df[df[2]!=-1][
+    
+    valid_data = df[df[2]!=-1]
+    EEG_data = valid_data[
                 range(788,788+ n_chs*trial_len*orig_smp_freq)
                 ].to_numpy().reshape(-1, n_chs, trial_len*orig_smp_freq)
-    label = df[df[2]!=-1][2].to_numpy()
-    return data, label
+    MNIST_data = valid_data[
+             range(3,787)
+            ].to_numpy().reshape(-1,28, 28)
+    label = valid_data[2].to_numpy()
+    return EEG_data, MNIST_data, label
 
 def chanel_selection(sel_chs): 
     chs_id = []
@@ -33,14 +38,14 @@ def chanel_selection(sel_chs):
 def load_crop_data(PATH, subject, start, stop, new_smp_freq, num_class, id_chosen_chs):
     start_time = int(start*new_smp_freq) 
     stop_time = int(stop*new_smp_freq) 
-    X_train, y_tr = read_raw(PATH=PATH, subject=subject,
+    EEG_train, MNIST_train, y_tr = read_raw(PATH=PATH, subject=subject,
                              training=True, num_class=num_class, id_chosen_chs=id_chosen_chs)
-    X_test, y_te = read_raw(PATH=PATH, subject=subject,
+    EEG_test, MNIST_test, y_te = read_raw(PATH=PATH, subject=subject,
                             training=False, num_class=num_class, id_chosen_chs=id_chosen_chs)
     if new_smp_freq < orig_smp_freq:
-        X_train = resampling(X_train, new_smp_freq, trial_len)
-        X_test = resampling(X_test, new_smp_freq, trial_len)
-    X_train = X_train[:,:,start_time:stop_time]
-    X_test = X_test[:,:,start_time:stop_time]
-    print("Verify dimension training {} and testing {}".format(X_train.shape, X_test.shape)) 
-    return X_train, y_tr, X_test, y_te 
+        EEG_train = resampling(EEG_train, new_smp_freq, trial_len)
+        EEG_test = resampling(EEG_test, new_smp_freq, trial_len)
+    EEG_train = EEG_train[:,:,start_time:stop_time]
+    EEG_test = EEG_test[:,:,start_time:stop_time]
+    print("Verify EEG dimension training {} and testing {}".format(EEG_train.shape, EEG_test.shape)) 
+    return EEG_train, MNIST_train, y_tr, EEG_test, MNIST_test, y_te

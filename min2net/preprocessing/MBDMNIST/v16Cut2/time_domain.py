@@ -43,7 +43,7 @@ def subject_dependent_setting(k_folds, pick_smp_freq, bands, order, save_path, n
             X_val_fil = butter_bandpass_filter(X_val_cv,  bands[0],  bands[1], pick_smp_freq, order)
             X_te_fil = butter_bandpass_filter(X_te,  bands[0],  bands[1], pick_smp_freq, order)
             print('Check dimension of training data {}, val data {} and testing data {}'.format(X_tr_fil.shape, X_val_fil.shape, X_te_fil.shape))
-            SAVE_NAME = 'S{:03d}'.format(person+1)
+            SAVE_NAME = 'S{:03d}_fold001'.format(person+1)
             __save_data_with_valset(save_path, SAVE_NAME, X_tr_fil, y_tr_cv, X_val_fil, y_val_cv, X_te_fil, y_te)
             print('The preprocessing of subject {} from is DONE!!!'.format(person+1))
         else:
@@ -66,7 +66,7 @@ def subject_dependent_setting(k_folds, pick_smp_freq, bands, order, save_path, n
 def __load_MBDMNIST16Cut2(PATH, subject, new_smp_freq, num_class, id_chosen_chs):
     start = CONSTANT['MI']['start'] # 0
     stop = CONSTANT['MI']['stop'] # 2
-    X_train, y_tr, X_test, y_te = raw.load_crop_data(
+    X_train, _, y_tr, X_test, _, y_te = raw.load_crop_data(
         PATH=PATH, subject=subject, start=start, stop=stop, new_smp_freq=new_smp_freq, num_class=num_class, id_chosen_chs=id_chosen_chs)
     return X_train, y_tr, X_test, y_te
 

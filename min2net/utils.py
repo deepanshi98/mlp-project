@@ -209,6 +209,93 @@ class DataLoader:
             raise Exception('Path Error: file does not exist, please check this path {}, and {}'.format(self.file_x, self.file_y))
         return X, y
 
+
+class VisualDataLoader:
+    def __init__(self, dataset, train_type=None, data_type=None, num_class=2, subject=None, data_format=None, dataset_path='/datasets', **kwargs):
+
+        self.dataset = dataset #Dataset name
+        self.train_type = train_type # 'subject_dependent', 'subject_independent'
+        self.data_type = data_type # 'fbcsp', 'spectral_spatial', 'time_domain'
+        self.dataset_path = dataset_path
+        self.subject = subject # id, start at 1
+        self.data_format = data_format # 'channels_first', 'channels_last'
+        self.fold = None # fold, start at 1
+        self.prefix_name = 'S'
+        self.num_class = num_class
+        for k in kwargs.keys():
+            self.__setattr__(k, kwargs[k])
+
+
+        self.path = self.dataset_path+'/'+self.dataset+'/'+self.data_type+'/'+str(self.num_class)+'_class/'+self.train_type
+    
+    def _change_data_format(self, X):
+        if self.data_format == 'NCTD':
+            # (#n_trial, #channels, #time, #depth)
+            X = X.reshape(X.shape[0], X.shape[1], X.shape[2], 1)
+        elif self.data_format == 'NDCT':
+            # (#n_trial, #depth, #channels, #time)
+            X = X.reshape(X.shape[0], 1, X.shape[1], X.shape[2])
+        elif self.data_format == 'NTCD':
+            # (#n_trial, #time, #channels, #depth)
+            X = X.reshape(X.shape[0], X.shape[1], X.shape[2], 1)
+            X = np.swapaxes(X, 1, 2)
+        elif self.data_format == 'NDTC':
+            # (#n_trial, #time, #channels, #depth)
+            X = X.reshape(X.shape[0], X.shape[1], X.shape[2], 1)
+            X = np.swapaxes(X, 1, 3)
+        elif self.data_format == 'NSHWD':
+            # (#n_trial, #Freqs, #height, #width, #depth)
+            X = zero_padding(X)
+            X = X.reshape(X.shape[0], X.shape[1], X.shape[2], X.shape[3], 1)
+        elif self.data_format == None:
+            pass
+        else:
+            raise Exception('Value Error: data_format requires None, \'NCTD\', \'NDCT\', \'NTCD\' or \'NSHWD\', found data_format={}'.format(self.data_format))
+        print('change data_format to \'{}\', new dimention is {}'.format(self.data_format, X.shape))
+        return X
+
+    def load_train_set(self, fold, **kwargs):
+        self.fold = fold
+        for k in kwargs.keys():
+            self.__setattr__(k, kwargs[k])
+        # load 
+        self.file_EEG = self.path+'/EEG_train_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
+        self.file_MNIST = self.path+'/MNIST_train_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
+        self.file_y = self.path+'/y_train_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
+        EEG = self._change_data_format(np.load(self.file_EEG))
+        MNIST = self._change_data_format(np.load(self.file_MNIST))
+        y = np.load(self.file_y)
+
+        return EEG, MNIST, y
+
+    def load_val_set(self, fold, **kwargs):
+        self.fold = fold
+        for k in kwargs.keys():
+            self.__setattr__(k, kwargs[k])
+        # load 
+        self.file_EEG = self.path+'/EEG_val_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
+        self.file_MNIST = self.path+'/MNIST_val_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
+        self.file_y = self.path+'/y_val_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
+        EEG = self._change_data_format(np.load(self.file_EEG))
+        MNIST = self._change_data_format(np.load(self.file_MNIST))
+        y = np.load(self.file_y)
+        
+        return EEG, MNIST, y
+    
+    def load_test_set(self, fold, **kwargs):
+        self.fold = fold
+        for k in kwargs.keys():
+            self.__setattr__(k, kwargs[k])
+        # load
+        self.file_EEG = self.path+'/EEG_test_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
+        self.file_MNIST = self.path+'/MNIST_test_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
+        self.file_y = self.path+'/y_test_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
+        EEG = self._change_data_format(np.load(self.file_EEG))
+        MNIST = self._change_data_format(np.load(self.file_MNIST))
+        y = np.load(self.file_y)
+
+        return EEG, MNIST, y
+
 def compute_class_weight(y_train):
     """compute class balancing
 
