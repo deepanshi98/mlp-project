@@ -156,10 +156,12 @@ class BrainVizNet:
                           epochs=self.epochs, validation_data=(EEG_val, [MNIST_val,y_val,y_val]),
                           callbacks=[checkpointer,csv_logger,reduce_lr,es, time_callback])
         
-    def predict(self, X_test, y_test):
+    def predict(self, EEG_test, MNIST_test, y_test):
 
-        if X_test.ndim != 4:
-            raise Exception('ValueError: `X_test` is incompatible: expected ndim=4, found ndim='+str(X_test.ndim))
+        if EEG_test.ndim != 4:
+            raise Exception('ValueError: `EEG_test` is incompatible: expected ndim=4, found ndim='+str(EEG_test.ndim))
+        if MNIST_test.ndim != 4:
+            raise Exception('ValueError: `MNIST_test` is incompatible: expected ndim=4, found ndim='+str(MNIST_test.ndim))
 
         model = self.build()
         model.summary()
@@ -167,10 +169,10 @@ class BrainVizNet:
         model.compile(optimizer=self.optimizer, loss=self.loss, metrics=self.metrics, loss_weights=self.loss_weights)
 
         start = time.time()
-        y_pred_decoder, y_pred_trip, y_pred_clf = model.predict(X_test)
+        y_pred_decoder, y_pred_trip, y_pred_clf = model.predict(EEG_test)
         end = time.time()
-        loss, decoder_loss, trip_loss, classifier_loss, decoder_acc, trip_acc, classifier_acc  = model.evaluate(x=X_test,
-                                                                                                                y=[X_test,y_test,y_test],
+        loss, decoder_loss, trip_loss, classifier_loss, decoder_acc, trip_acc, classifier_acc  = model.evaluate(x=EEG_test,
+                                                                                                                y=[MNIST_test,y_test,y_test],
                                                                                                                 batch_size=self.batch_size, 
                                                                                                                 verbose=self.verbose)
         y_pred_argm = np.argmax(y_pred_clf, axis=1)
