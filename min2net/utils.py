@@ -263,7 +263,7 @@ class VisualDataLoader:
         self.file_MNIST = self.path+'/MNIST_train_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
         self.file_y = self.path+'/y_train_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
         EEG = self._change_data_format(np.load(self.file_EEG))
-        MNIST = self._change_data_format(np.load(self.file_MNIST))
+        MNIST = np.expand_dims(np.load(self.file_MNIST), -1)
         y = np.load(self.file_y)
 
         return EEG, MNIST, y
@@ -277,7 +277,7 @@ class VisualDataLoader:
         self.file_MNIST = self.path+'/MNIST_val_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
         self.file_y = self.path+'/y_val_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
         EEG = self._change_data_format(np.load(self.file_EEG))
-        MNIST = self._change_data_format(np.load(self.file_MNIST))
+        MNIST = np.expand_dims(np.load(self.file_MNIST), -1)
         y = np.load(self.file_y)
         
         return EEG, MNIST, y
@@ -291,7 +291,7 @@ class VisualDataLoader:
         self.file_MNIST = self.path+'/MNIST_test_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
         self.file_y = self.path+'/y_test_{}{:03d}_fold{:03d}.npy'.format(self.prefix_name, self.subject, self.fold)
         EEG = self._change_data_format(np.load(self.file_EEG))
-        MNIST = self._change_data_format(np.load(self.file_MNIST))
+        MNIST = np.expand_dims(np.load(self.file_MNIST), -1)
         y = np.load(self.file_y)
 
         return EEG, MNIST, y
