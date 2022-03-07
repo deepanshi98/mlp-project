@@ -14,6 +14,15 @@ import argparse
 # lib path
 PATH = os.path.dirname(os.path.realpath(__file__))
 
+def download(url, filename):
+    """
+    download the url oly if the file does not exist.
+    """
+    if not os.path.exists(filename):
+        wget.download(url, filename)
+    else:
+        print("File already exists. Skipping download.")
+    
 def load_raw(dataset):
     # folder_name = str(PATH)+'/datasets'
     folder_name = 'datasets'
@@ -33,7 +42,7 @@ def load_raw(dataset):
                     print('\n===Download is being processed on session: {} subject: {}==='.format(session, person))
                     url = 'ftp://parrot.genomics.cn/gigadb/pub/10.5524/100001_101000/100542/session{}/s{}{}'.format(session, person, file_name)
                     print('save to: '+save_path+file_name)
-                    wget.download(url,  save_path+file_name)
+                    download(url,  save_path+file_name)
             print('\nDone!')
         except:
             raise Exception('Path Error: file does not exist, please direccly download at http://gigadb.org/dataset/100542')
@@ -54,7 +63,7 @@ def load_raw(dataset):
                     print('\n===Download is being processed on session: {} subject: {}==='.format(session, person))
                     url = 'https://lampx.tugraz.at/~bci/database/001-2014'+file_name
                     print('save to: '+save_path+file_name)
-                    wget.download(url, save_path+file_name)
+                    download(url, save_path+file_name)
             print('\nDone!')
         except:
             raise Exception('Path Error: file does not exist, please direccly download at http://bnci-horizon-2020.eu/database/data-sets')
@@ -74,7 +83,7 @@ def load_raw(dataset):
                     print('\n===Download is being processed on session: {} subject: {}==='.format(session, person))
                     url = 'https://lampx.tugraz.at/~bci/database/002-2014'+file_name
                     print('save to: '+save_path+file_name)
-                    wget.download(url,  save_path+file_name)
+                    download(url,  save_path+file_name)
             print('\nDone!')
         except:
             raise Exception('Path Error: file does not exist, please direccly download at http://bnci-horizon-2020.eu/database/data-sets')
@@ -88,7 +97,7 @@ def load_raw(dataset):
             file_name = "/MindBigDataVisualMnist2021-Muse2v0.17.zip"
             url = f"https://vivancos.net/opendb/{file_name}"
             print('save to: '+save_path+file_name)
-            wget.download(url, save_path+file_name)
+            download(url, save_path+file_name)
 
             print('Done!')
         except:
@@ -103,7 +112,7 @@ def load_raw(dataset):
             file_name = "/MindBigDataVisualMnist2021-Muse2v0.16Cut2.zip"
             url = f"https://vivancos.net/opendb/{file_name}"
             print('save to: '+save_path+file_name)
-            wget.download(url, save_path+file_name)
+            download(url, save_path+file_name)
 
             print('Done!')
         except:
@@ -134,6 +143,10 @@ class DataLoader:
             # (#n_trial, #depth, #channels, #time)
             X = X.reshape(X.shape[0], 1, X.shape[1], X.shape[2])
         elif self.data_format == 'NTCD':
+            # (#n_trial, #time, #channels, #depth)
+            X = X.reshape(X.shape[0], X.shape[1], X.shape[2], 1)
+            X = np.swapaxes(X, 1, 2)
+        elif self.data_format == 'NDTC':
             # (#n_trial, #time, #channels, #depth)
             X = X.reshape(X.shape[0], X.shape[1], X.shape[2], 1)
             X = np.swapaxes(X, 1, 3)
