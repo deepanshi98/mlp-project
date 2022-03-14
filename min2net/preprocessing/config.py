@@ -97,4 +97,20 @@ CONSTANT = {
         'orig_chs': ["TP9", "TP10"],
         'sel_chs': ["TP9", "TP10"] 
     },
+    'MDBEPV1' : {
+        'raw_path': 'datasets/MDBEPV1/raw', 
+        'n_subjs': 1,
+        'n_trials': 910476,
+        'n_trials_per_class': None,
+        'n_chs': 14,
+        'orig_smp_freq': 128,                  # Original sampling frequency (Hz)
+        'trial_len': 2,                        # 2s
+        'MI': {
+            'start': 0,                        
+            'stop': 2,                         
+            'len': 2,                          
+        },
+        'orig_chs': ["AF3", "F7", "F3", "FC5", "T7", "P7", "O1", "O2", "P8", "T8", "FC6", "F4", "F8", "AF4"],
+        'sel_chs': ["AF3", "F7", "F3", "FC5", "T7", "P7", "O1", "O2", "P8", "T8", "FC6", "F4", "F8", "AF4"]
+    }
 }

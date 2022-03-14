@@ -31,3 +31,4 @@ from min2net.model import BrainVizNet
 model = BrainVizNet(epochs = 200, input_shape=(1,200,2), num_class=10, monitor='val_loss', shuffle=True)
 model.fit(EEG_train, MNIST_train, y_train, EEG_val, MNIST_val, y_val)
 Y, evaluation = model.predict(EEG_test, MNIST_test, y_test)
+# %%
