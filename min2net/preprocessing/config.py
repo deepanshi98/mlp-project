@@ -101,7 +101,7 @@ CONSTANT = {
         'raw_path': 'datasets/MDBEPV1/raw', 
         'n_subjs': 1,
         'n_trials': 910476,
-        'n_trials_per_class': None,
+        'n_trials_per_class': 4000,
         'n_chs': 14,
         'orig_smp_freq': 128,                  # Original sampling frequency (Hz)
         'trial_len': 2,                        # 2s

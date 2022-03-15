@@ -4,11 +4,12 @@ from min2net.utils import resampling
 from min2net.preprocessing.config import CONSTANT
 CONSTANT = CONSTANT['MDBEPV1']
 n_chs = CONSTANT['n_chs']
-n_trials = 2*CONSTANT['n_trials']
+n_trials = CONSTANT['n_trials']
 window_len = CONSTANT['trial_len']*CONSTANT['orig_smp_freq']
 orig_chs = CONSTANT['orig_chs']
 trial_len = CONSTANT['trial_len'] 
 orig_smp_freq = CONSTANT['orig_smp_freq']
+n_trials_per_class = CONSTANT['n_trials_per_class']
 
 def read_raw(PATH, subject, training, num_class, id_chosen_chs):
     if training:
@@ -19,13 +20,26 @@ def read_raw(PATH, subject, training, num_class, id_chosen_chs):
     
     valid_data = df[df[4]!=-1]
 
-    EEG_data = valid_data[
+    unique_classes = list(df[4].unique())
+    trial_data = pd.DataFrame()
+    for i in unique_classes:
+        unique_data = pd.DataFrame()
+        sampled_df = pd.DataFrame()
+
+        unique_data = valid_data[valid_data[4]==i]
+        rows = np.random.choice(unique_data.index.values, n_trials_per_class)
+        sampled_df = valid_data.loc[rows]
+        trial_data.append(sampled_df)
+        print(len(trial_data))
+    
+    EEG_data = trial_data[
                 range(5,5+ n_chs*trial_len*orig_smp_freq)
                 ].to_numpy().reshape(-1, n_chs, trial_len*orig_smp_freq)
     # MNIST_data = valid_data[
     #          range(3,787)
     #         ].to_numpy().reshape(-1,28, 28)
-    label = valid_data[4].to_numpy()
+    label = trial_data[4].to_numpy()
+
     return EEG_data, label
 
 def chanel_selection(sel_chs): 
