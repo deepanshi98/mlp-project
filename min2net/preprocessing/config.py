@@ -1,116 +1,288 @@
 from min2net.utils import PATH
 
 CONSTANT = {
-    'BCIC2a': {
-        'raw_path': 'datasets/BCIC2a/raw', # raw data path 'raw_path': 'datasets/BCIC2a'
-        'n_subjs': 9,
-        'n_trials': 144,
-        'n_trials_per_class': 72,
-        'n_chs': 20,
-        'orig_smp_freq': 250,                  # Original sampling frequency (Hz)
-        'trial_len': 7,                        # 7s
-        'MI': {
-            'start': 2,                        # start at time = 2 s
-            'stop': 6,                         # stop at time = 6 s
-            'len': 4,                          # 4s
+    "BCIC2a": {
+        "raw_path": "datasets/BCIC2a/raw",  # raw data path 'raw_path': 'datasets/BCIC2a'
+        "n_subjs": 9,
+        "n_trials": 144,
+        "n_trials_per_class": 72,
+        "n_chs": 20,
+        "orig_smp_freq": 250,  # Original sampling frequency (Hz)
+        "trial_len": 7,  # 7s
+        "MI": {
+            "start": 2,  # start at time = 2 s
+            "stop": 6,  # stop at time = 6 s
+            "len": 4,  # 4s
         },
-        'orig_chs': ['FC3', 'FC1', 'FCz', 'FC2', 'FC4',
-                    'C5', 'C3', 'C1', 'Cz', 'C2', 'C4', 'C6',
-                    'CP3', 'CP1', 'CPz', 'CP2', 'CP4',
-                    'P1', 'Pz', 'P2'],
-        'sel_chs': ['FC3', 'FC1', 'FCz', 'FC2', 'FC4', 
-                    'C5', 'C3', 'C1', 'Cz', 'C2', 'C4', 'C6',
-                    'CP3', 'CP1', 'CPz', 'CP2', 'CP4',
-                    'P1', 'Pz', 'P2'] 
+        "orig_chs": [
+            "FC3",
+            "FC1",
+            "FCz",
+            "FC2",
+            "FC4",
+            "C5",
+            "C3",
+            "C1",
+            "Cz",
+            "C2",
+            "C4",
+            "C6",
+            "CP3",
+            "CP1",
+            "CPz",
+            "CP2",
+            "CP4",
+            "P1",
+            "Pz",
+            "P2",
+        ],
+        "sel_chs": [
+            "FC3",
+            "FC1",
+            "FCz",
+            "FC2",
+            "FC4",
+            "C5",
+            "C3",
+            "C1",
+            "Cz",
+            "C2",
+            "C4",
+            "C6",
+            "CP3",
+            "CP1",
+            "CPz",
+            "CP2",
+            "CP4",
+            "P1",
+            "Pz",
+            "P2",
+        ],
     },
-    'SMR_BCI': {
-        'raw_path': 'datasets/SMR_BCI/raw', # raw data path
-        'n_subjs': 14,
-        'n_trials_tr': 100,
-        'n_trials_te': 60, 
-        'n_chs': 15,
-        'orig_smp_freq': 512,                   # Original sampling frequency  (Hz)
-        'trial_len': 8,                         # 7s
-        'MI': {
-            'start': 4,                         # start at time = 4 s
-            'stop': 8,                          # stop at time = 8 s
-            'len': 4,                           # 4s
+    "SMR_BCI": {
+        "raw_path": "datasets/SMR_BCI/raw",  # raw data path
+        "n_subjs": 14,
+        "n_trials_tr": 100,
+        "n_trials_te": 60,
+        "n_chs": 15,
+        "orig_smp_freq": 512,  # Original sampling frequency  (Hz)
+        "trial_len": 8,  # 7s
+        "MI": {
+            "start": 4,  # start at time = 4 s
+            "stop": 8,  # stop at time = 8 s
+            "len": 4,  # 4s
         },
-        'orig_chs': ['FCC3',                   'FCCz',                 'FCC4',
-                    'C5h', 'C3', 'C3h',       'C1h', 'Cz', 'C2h',       'C4h', 'C4', 'C6h',
-                           'CCP3',                   'CCPz',                 'CCP4'],
-        'sel_chs': [       'FCC3',                   'FCCz',                 'FCC4', 
-                    'C5h', 'C3', 'C3h',       'C1h', 'Cz', 'C2h',       'C4h','C4', 'C6h', 
-                           'CCP3',                   'CCPz',                 'CCP4']  
+        "orig_chs": [
+            "FCC3",
+            "FCCz",
+            "FCC4",
+            "C5h",
+            "C3",
+            "C3h",
+            "C1h",
+            "Cz",
+            "C2h",
+            "C4h",
+            "C4",
+            "C6h",
+            "CCP3",
+            "CCPz",
+            "CCP4",
+        ],
+        "sel_chs": [
+            "FCC3",
+            "FCCz",
+            "FCC4",
+            "C5h",
+            "C3",
+            "C3h",
+            "C1h",
+            "Cz",
+            "C2h",
+            "C4h",
+            "C4",
+            "C6h",
+            "CCP3",
+            "CCPz",
+            "CCP4",
+        ],
     },
-    'OpenBMI': {
-        'raw_path': 'datasets/OpenBMI/raw', # raw data path
-        'n_subjs': 54,
-        'n_trials_2_class': 100,
-        'n_trials_3_class': 150, 
-        'n_chs': 62,
-        'orig_smp_freq': 1000,                  # Original sampling frequency  (Hz)
-        'trial_len': 8,                         # 8s (cut-off)
-        'MI': {
-            'start': 0,                         # start at time = 0 s
-            'stop': 4,                          # stop at time = 0 s
-            'len': 4,                           # 4s
+    "OpenBMI": {
+        "raw_path": "datasets/OpenBMI/raw",  # raw data path
+        "n_subjs": 54,
+        "n_trials_2_class": 100,
+        "n_trials_3_class": 150,
+        "n_chs": 62,
+        "orig_smp_freq": 1000,  # Original sampling frequency  (Hz)
+        "trial_len": 8,  # 8s (cut-off)
+        "MI": {
+            "start": 0,  # start at time = 0 s
+            "stop": 4,  # stop at time = 0 s
+            "len": 4,  # 4s
         },
-        'orig_chs': ['Fp1', 'Fp2', 'F7', 'F3', 'Fz', 'F4', 'F8', 'FC5', 'FC1', 'FC2', 'FC6', 'T7', 
-                    'C3','Cz','C4', 'T8', 'TP9', 'CP5', 'CP1', 'CP2', 'CP6', 'TP10', 'P7', 'P3', 
-                    'Pz', 'P4', 'P8', 'PO9', 'O1', 'Oz', 'O2', 'PO10', 'FC3', 'FC4', 'C5', 'C1',
-                    'C2', 'C6', 'CP3','CPz', 'CP4', 'P1', 'P2', 'POz', 'FT9', 'FTT9h', 'TTP7h', 
-                    'TP7', 'TPP9h', 'FT10','FTT10h','TPP8h', 'TP8', 'TPP10h', 'F9', 'F10', 
-                    'AF7', 'AF3', 'AF4', 'AF8', 'PO3','PO4'],
-        'sel_chs': ['FC5', 'FC3', 'FC1', 'FC2', 'FC4','FC6', 'C5', 'C3', 'C1', 'Cz', 'C2', 'C4', 'C6', 'CP5', 
-                    'CP3', 'CP1', 'CPz', 'CP2', 'CP4', 'CP6']  
+        "orig_chs": [
+            "Fp1",
+            "Fp2",
+            "F7",
+            "F3",
+            "Fz",
+            "F4",
+            "F8",
+            "FC5",
+            "FC1",
+            "FC2",
+            "FC6",
+            "T7",
+            "C3",
+            "Cz",
+            "C4",
+            "T8",
+            "TP9",
+            "CP5",
+            "CP1",
+            "CP2",
+            "CP6",
+            "TP10",
+            "P7",
+            "P3",
+            "Pz",
+            "P4",
+            "P8",
+            "PO9",
+            "O1",
+            "Oz",
+            "O2",
+            "PO10",
+            "FC3",
+            "FC4",
+            "C5",
+            "C1",
+            "C2",
+            "C6",
+            "CP3",
+            "CPz",
+            "CP4",
+            "P1",
+            "P2",
+            "POz",
+            "FT9",
+            "FTT9h",
+            "TTP7h",
+            "TP7",
+            "TPP9h",
+            "FT10",
+            "FTT10h",
+            "TPP8h",
+            "TP8",
+            "TPP10h",
+            "F9",
+            "F10",
+            "AF7",
+            "AF3",
+            "AF4",
+            "AF8",
+            "PO3",
+            "PO4",
+        ],
+        "sel_chs": [
+            "FC5",
+            "FC3",
+            "FC1",
+            "FC2",
+            "FC4",
+            "FC6",
+            "C5",
+            "C3",
+            "C1",
+            "Cz",
+            "C2",
+            "C4",
+            "C6",
+            "CP5",
+            "CP3",
+            "CP1",
+            "CPz",
+            "CP2",
+            "CP4",
+            "CP6",
+        ],
     },
-    'MBDMNIST17': {
-        'raw_path': 'datasets/MBDMNISTv17/raw', 
-        'n_subjs': 1,
-        'n_trials': 18000,
-        'n_trials_per_class': None,
-        'n_chs': 4,
-        'orig_smp_freq': 256,                  # Original sampling frequency (Hz)
-        'trial_len': 2,                        # 2s
-        'MI': {
-            'start': 0,                        
-            'stop': 2,                         
-            'len': 2,                          
+    "MBDMNIST17": {
+        "raw_path": "datasets/MBDMNISTv17/raw",
+        "n_subjs": 1,
+        "n_trials": 18000,
+        "n_trials_per_class": None,
+        "n_chs": 4,
+        "orig_smp_freq": 256,  # Original sampling frequency (Hz)
+        "trial_len": 2,  # 2s
+        "MI": {
+            "start": 0,
+            "stop": 2,
+            "len": 2,
         },
-        'orig_chs': ["TP9","AF7","AF8", "TP10"],
-        'sel_chs': ["TP9","AF7","AF8", "TP10"] 
+        "orig_chs": ["TP9", "AF7", "AF8", "TP10"],
+        "sel_chs": ["TP9", "AF7", "AF8", "TP10"],
     },
-    'MBDMNIST16Cut2': {
-        'raw_path': 'datasets/MBDMNIST16Cut2/raw', 
-        'n_subjs': 1,
-        'n_trials': 11387,
-        'n_trials_per_class': None,
-        'n_chs': 2,
-        'orig_smp_freq': 256,                  # Original sampling frequency (Hz)
-        'trial_len': 2,                        # 2s
-        'MI': {
-            'start': 0,                        
-            'stop': 2,                         
-            'len': 2,                          
+    "MBDMNIST16Cut2": {
+        "raw_path": "datasets/MBDMNIST16Cut2/raw",
+        "n_subjs": 1,
+        "n_trials": 11387,
+        "n_trials_per_class": None,
+        "n_chs": 2,
+        "orig_smp_freq": 256,  # Original sampling frequency (Hz)
+        "trial_len": 2,  # 2s
+        "MI": {
+            "start": 0,
+            "stop": 2,
+            "len": 2,
         },
-        'orig_chs': ["TP9", "TP10"],
-        'sel_chs': ["TP9", "TP10"] 
+        "orig_chs": ["TP9", "TP10"],
+        "sel_chs": ["TP9", "TP10"],
     },
-    'MDBEPV1' : {
-        'raw_path': 'datasets/MDBEPV1/raw', 
-        'n_subjs': 1,
-        'n_trials': 910476,
-        'n_trials_per_class': 4000,
-        'n_chs': 14,
-        'orig_smp_freq': 128,                  # Original sampling frequency (Hz)
-        'trial_len': 2,                        # 2s
-        'MI': {
-            'start': 0,                        
-            'stop': 2,                         
-            'len': 2,                          
+    "MBDEPV1": {
+        "raw_path": "datasets/MBDEPV1/raw",
+        "n_subjs": 1,
+        "n_trials": 910476,
+        "n_trials_per_class": 4000,
+        "n_chs": 14,
+        "orig_smp_freq": 128,  # Original sampling frequency (Hz)
+        "trial_len": 2,  # 2s
+        "MI": {
+            "start": 0,
+            "stop": 2,
+            "len": 2,
         },
-        'orig_chs': ["AF3", "F7", "F3", "FC5", "T7", "P7", "O1", "O2", "P8", "T8", "FC6", "F4", "F8", "AF4"],
-        'sel_chs': ["AF3", "F7", "F3", "FC5", "T7", "P7", "O1", "O2", "P8", "T8", "FC6", "F4", "F8", "AF4"]
-    }
+        "orig_chs": [
+            "AF3",
+            "F7",
+            "F3",
+            "FC5",
+            "T7",
+            "P7",
+            "O1",
+            "O2",
+            "P8",
+            "T8",
+            "FC6",
+            "F4",
+            "F8",
+            "AF4",
+        ],
+        "sel_chs": [
+            "AF3",
+            "F7",
+            "F3",
+            "FC5",
+            "T7",
+            "P7",
+            "O1",
+            "O2",
+            "P8",
+            "T8",
+            "FC6",
+            "F4",
+            "F8",
+            "AF4",
+        ],
+    },
 }
