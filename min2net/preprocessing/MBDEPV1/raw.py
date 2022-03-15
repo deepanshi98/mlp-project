@@ -30,7 +30,6 @@ def read_raw(PATH, subject, training, num_class, id_chosen_chs):
         rows = np.random.choice(unique_data.index.values, n_trials_per_class)
         sampled_df = valid_data.loc[rows]
         trial_data.append(sampled_df)
-        print(len(trial_data))
     
     EEG_data = trial_data[
                 range(5,5+ n_chs*trial_len*orig_smp_freq)
@@ -39,7 +38,7 @@ def read_raw(PATH, subject, training, num_class, id_chosen_chs):
     #          range(3,787)
     #         ].to_numpy().reshape(-1,28, 28)
     label = trial_data[4].to_numpy()
-
+    
     return EEG_data, label
 
 def chanel_selection(sel_chs): 
@@ -53,8 +52,10 @@ def chanel_selection(sel_chs):
 def load_crop_data(PATH, subject, start, stop, new_smp_freq, num_class, id_chosen_chs):
     start_time = int(start*new_smp_freq) 
     stop_time = int(stop*new_smp_freq) 
+    print("Reading raw training data")
     EEG_train, y_tr = read_raw(PATH=PATH, subject=subject,
                              training=True, num_class=num_class, id_chosen_chs=id_chosen_chs)
+    print(len(EEG_train))
     EEG_test, y_te = read_raw(PATH=PATH, subject=subject,
                             training=False, num_class=num_class, id_chosen_chs=id_chosen_chs)
     if new_smp_freq < orig_smp_freq:
