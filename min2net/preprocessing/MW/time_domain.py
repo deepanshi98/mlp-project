@@ -134,7 +134,7 @@ def subject_dependent_setting(
 def __load_MW(PATH, subject, new_smp_freq, num_class, id_chosen_chs):
     start = CONSTANT["MI"]["start"]  # 0
     stop = CONSTANT["MI"]["stop"]  # 2
-    X_train, _, y_tr, X_test, _, y_te = raw.load_crop_data(
+    X_train, y_tr, X_test, y_te = raw.load_crop_data(
         PATH=PATH,
         subject=subject,
         start=start,
