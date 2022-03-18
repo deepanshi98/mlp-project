@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.model_selection import StratifiedKFold, train_test_split
 import os
 from min2net.utils import butter_bandpass_filter
-from min2net.preprocessing.MBDEPV1 import raw
+from min2net.preprocessing.MW import raw
 from min2net.preprocessing.config import CONSTANT
 
 CONSTANT = CONSTANT["MW"]
