@@ -162,6 +162,24 @@ def load_raw(dataset):
             raise Exception(
                 f"Path Error: file does not exist, please directly download at http://mindbigdata.com/opendb/{file_name}"
             )
+    elif dataset == "MW":
+        try:
+            save_path = folder_name + "/" + dataset + "/raw"
+            if save_path is not None:
+                if not os.path.exists(save_path):
+                    os.makedirs(save_path)
+            print("===Download is being processed")
+            file_name = "/MindBigData-MW-v1.0.zip"
+            url = f"http://mindbigdata.com/opendb/{file_name}"
+            print("save to: " + save_path + file_name)
+            download(url, save_path + file_name)
+
+            print("Done!")
+        except:
+            raise Exception(
+                f"Path Error: file does not exist, please directly download at http://mindbigdata.com/opendb/{file_name}"
+            )
+
 
 
 class DataLoader:

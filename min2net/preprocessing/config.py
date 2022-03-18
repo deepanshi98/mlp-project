@@ -285,4 +285,24 @@ CONSTANT = {
             "AF4",
         ],
     },
+    "MW":{
+        "raw_path": "datasets/MBDEPV1/raw",
+        "n_subjs": 1,
+        "n_trials": 47940,
+        "n_trials_per_class": None,
+        "n_chs": 1,
+        "orig_smp_freq": 512,  # Original sampling frequency (Hz)
+        "trial_len": 2,  # 2s
+        "MI": {
+            "start": 0,
+            "stop": 2,
+            "len": 2,
+        },
+        "orig_chs": [
+            "FP1"
+        ],
+        "sel_chs": [
+          "FP1"
+        ]
+    }
 }
