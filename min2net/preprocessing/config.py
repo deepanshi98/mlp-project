@@ -286,7 +286,7 @@ CONSTANT = {
         ],
     },
     "MW":{
-        "raw_path": "datasets/MBDEPV1/raw",
+        "raw_path": "datasets/MW/raw",
         "n_subjs": 1,
         "n_trials": 47940,
         "n_trials_per_class": None,

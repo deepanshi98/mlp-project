@@ -34,7 +34,7 @@ def subject_dependent_setting(
 
     id_chosen_chs = raw.chanel_selection(sel_chs)
     for s in range(n_subjs):
-        X_train, y_train, X_test, y_test = __load_MBDEPV1(
+        X_train, y_train, X_test, y_test = __load_MW(
             raw_path, s + 1, pick_smp_freq, num_class, id_chosen_chs
         )
         X_train_all[s], y_train_all[s] = X_train, y_train
@@ -131,7 +131,7 @@ def subject_dependent_setting(
                 )
 
 
-def __load_MBDEPV1(PATH, subject, new_smp_freq, num_class, id_chosen_chs):
+def __load_MW(PATH, subject, new_smp_freq, num_class, id_chosen_chs):
     start = CONSTANT["MI"]["start"]  # 0
     stop = CONSTANT["MI"]["stop"]  # 2
     X_train, _, y_tr, X_test, _, y_te = raw.load_crop_data(
