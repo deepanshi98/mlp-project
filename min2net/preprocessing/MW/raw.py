@@ -41,8 +41,11 @@ def read_raw(PATH, subject, training, num_class, id_chosen_chs):
 
 def chanel_selection(sel_chs):
     chs_id = []
+    print("sel chs in channel selection function", sel_chs)
+    print("orig_chs in channel selection function", orig_chs)
     for name_ch in sel_chs:
         ch_id = np.where(np.array(orig_chs) == name_ch)[0][0]
+        print("ch_id", ch_id)
         chs_id.append(ch_id)
         print("chosen_channel:", name_ch, "---", "Index_is:", ch_id)
     return chs_id
