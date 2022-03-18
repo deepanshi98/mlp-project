@@ -8,7 +8,7 @@ from min2net.preprocessing.config import CONSTANT
 CONSTANT = CONSTANT["MW"]
 raw_path = CONSTANT["raw_path"]
 n_subjs = CONSTANT["n_subjs"]
-# n_trials = CONSTANT['n_trials']
+n_trials = CONSTANT['n_trials']
 n_trials_per_class = CONSTANT["n_trials_per_class"]
 n_chs = CONSTANT["n_chs"]
 orig_smp_freq = CONSTANT["orig_smp_freq"]
@@ -24,7 +24,7 @@ def subject_dependent_setting(
         num_class
     )
     n_chs = len(sel_chs)
-    n_trials = n_trials_per_class * num_class
+    # n_trials = n_trials_per_class * num_class
     X_train_all, y_train_all = np.zeros(
         (n_subjs, n_trials, n_chs, int(MI_len * pick_smp_freq))
     ), np.zeros((n_subjs, n_trials))
