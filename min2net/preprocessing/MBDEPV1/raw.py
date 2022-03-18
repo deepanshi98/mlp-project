@@ -20,30 +20,28 @@ def read_raw(PATH, subject, training, num_class, id_chosen_chs):
     else:
         df = pd.read_csv(PATH+"/MindBigData-EP-v1.0.zip",  header=None, sep='\n')
     
-    step = 10_000
-    len256 = pd.DataFrame()
+    step = 20_000
+    length = 250
+    selected = pd.DataFrame()
     for i in range(0,len(df), step):
         part = df[0][i:i+step].str.split(',', expand=True)
         details = part[0].str.split('\t', expand=True)
         part[0] = details[6]
-        part["class_label"] = details[4].astype(int)
         part["length"] = details[5].astype(int)
-        part["channel"] = details[3]
-        len256 = len256.append(part[part["length"]==256], ignore_index=True)
-    correct_len256 = len256.dropna(axis=1, how="all")
-    valid_data = correct_len256[correct_len256["class_label"]!=-1]
-    n_trials_per_class = 4000
-    trial_data = pd.DataFrame()
-    unique_classes = list(valid_data["class_label"].unique())
-    for i in unique_classes:
-        unique_data = pd.DataFrame()
-        sampled_df = pd.DataFrame()
-        unique_data = valid_data[valid_data["class_label"] == i]
-        rows = np.random.choice(unique_data.index.values, n_trials_per_class)
-        sampled_df = valid_data.loc[rows]
-        trial_data = trial_data.append(sampled_df)
-    dataset = valid_data[range(256)].to_numpy().astype(np.float64)
+        crop = part[part["length"]>length][range(length)]
+        crop["class_label"] = details[4].astype(int)
+        crop["channel"] = details[3]
+        selected = selected.append(crop, ignore_index=True)
+        del part
+        del crop
+
+    valid_data = selected[selected["class_label"]!=-1]
+    del selected
+    dataset = valid_data[range(length)].to_numpy().astype(np.float64)
     labels = valid_data["class_label"].to_numpy()
+    del valid_data
+    dataset = dataset.reshape(-1,14,length) 
+    labels = labels.reshape(-1, 14)[:,0]
     return dataset, labels
 
 
