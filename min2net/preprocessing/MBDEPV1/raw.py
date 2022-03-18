@@ -14,32 +14,35 @@ n_trials_per_class = CONSTANT['n_trials_per_class']
 def read_raw(PATH, subject, training, num_class, id_chosen_chs):
     if training:
         print("reading data..")
-        df = pd.read_csv(PATH+"/MindBigData-EP-v1.0.zip", header=None)
+        df = pd.read_csv(PATH+"/MindBigData-EP-v1.0.zip",  header=None, sep='\n')
     else:
-        df = pd.read_csv(PATH+"/MindBigData-EP-v1.0.zip", header=None)
+        df = pd.read_csv(PATH+"/MindBigData-EP-v1.0.zip",  header=None, sep='\n')
     
-    valid_data = df[df[4]!=-1]
-
-    unique_classes = list(df[4].unique())
+    step = 10_000
+    len256 = pd.DataFrame()
+    for i in range(0,len(df), step):
+        part = df[0][i:i+step].str.split(',', expand=True)
+        details = part[0].str.split('\t', expand=True)
+        part[0] = details[6]
+        part["class_label"] = details[4].astype(int)
+        part["length"] = details[5].astype(int)
+        part["channel"] = details[3]
+        len256 = len256.append(part[part["length"]==256], ignore_index=True)
+    correct_len256 = len256.dropna(axis=1, how="all")
+    valid_data = correct_len256[correct_len256["class_label"]!=-1]
+    n_trials_per_class = 4000
     trial_data = pd.DataFrame()
+    unique_classes = list(valid_data["class_label"].unique())
     for i in unique_classes:
         unique_data = pd.DataFrame()
         sampled_df = pd.DataFrame()
-
-        unique_data = valid_data[valid_data[4]==i]
+        unique_data = valid_data[valid_data["class_label"] == i]
         rows = np.random.choice(unique_data.index.values, n_trials_per_class)
         sampled_df = valid_data.loc[rows]
-        trial_data.append(sampled_df)
-    
-    EEG_data = trial_data[
-                range(5,5+ n_chs*trial_len*orig_smp_freq)
-                ].to_numpy().reshape(-1, n_chs, trial_len*orig_smp_freq)
-    # MNIST_data = valid_data[
-    #          range(3,787)
-    #         ].to_numpy().reshape(-1,28, 28)
-    label = trial_data[4].to_numpy()
-    
-    return EEG_data, label
+        trial_data = trial_data.append(sampled_df)
+    dataset = valid_data[range(256)].to_numpy().astype(np.float64)
+    labels = valid_data["class_label"].to_numpy()
+    return dataset, labels
 
 def chanel_selection(sel_chs): 
     chs_id = []
