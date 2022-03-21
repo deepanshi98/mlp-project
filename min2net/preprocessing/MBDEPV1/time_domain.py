@@ -35,7 +35,7 @@ def subject_dependent_setting(
     id_chosen_chs = raw.chanel_selection(sel_chs)
 
     X_train_all, y_train_all, X_test_all, y_test_all= __load_MBDEPV1(
-        raw_path, s + 1, pick_smp_freq, num_class, id_chosen_chs
+        raw_path, 1, pick_smp_freq, num_class, id_chosen_chs
     )
     X_train_all = X_train_all.reshape(1, *X_train_all.shape)
     X_test_all = X_test_all.reshape(1, *X_test_all.shape)
