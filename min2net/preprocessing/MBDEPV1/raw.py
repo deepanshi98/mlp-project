@@ -25,7 +25,7 @@ def read_raw(PATH, subject, training, num_class, id_chosen_chs):
     selected = pd.DataFrame()
     for i in range(
         0,
-        10_000, #len(df),
+        140_000, #len(df),
         step):
         part = df[0][i:i+step].str.split(',', expand=True)
         details = part[0].str.split('\t', expand=True)
