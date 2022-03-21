@@ -49,9 +49,9 @@ def subject_dependent_setting(
     #     X_train_all[s], y_train_all[s] = X_train, y_train
     #     X_test_all[s], y_test_all[s] = X_test, y_test
 
-    # for directory in [save_path]:
-    #     if not os.path.exists(directory):
-    #         os.makedirs(directory)
+    for directory in [save_path]:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
     # Carry out subject-dependent setting with 5-fold cross validation
     for person, (X_tr, y_tr, X_te, y_te) in enumerate(
