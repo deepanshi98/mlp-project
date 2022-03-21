@@ -66,6 +66,7 @@ def load_crop_data(PATH, subject, start, stop, new_smp_freq, num_class, id_chose
         id_chosen_chs=id_chosen_chs,
     )
     print(len(EEG_train))
+    print(EEG_train.shape)
     EEG_test, y_te = read_raw(
         PATH=PATH,
         subject=subject,
