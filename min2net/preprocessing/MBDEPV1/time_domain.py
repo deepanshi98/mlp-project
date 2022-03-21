@@ -25,24 +25,33 @@ def subject_dependent_setting(
     )
     n_chs = len(sel_chs)
     n_trials = n_trials_per_class * num_class
-    X_train_all, y_train_all = np.zeros(
-        (n_subjs, n_trials, n_chs, int(MI_len * pick_smp_freq))
-    ), np.zeros((n_subjs, n_trials))
-    X_test_all, y_test_all = np.zeros(
-        (n_subjs, n_trials, n_chs, int(MI_len * pick_smp_freq))
-    ), np.zeros((n_subjs, n_trials))
+    # X_train_all, y_train_all = np.zeros(
+    #     (n_subjs, n_trials, n_chs, int(MI_len * pick_smp_freq))
+    # ), np.zeros((n_subjs, n_trials))
+    # X_test_all, y_test_all = np.zeros(
+    #     (n_subjs, n_trials, n_chs, int(MI_len * pick_smp_freq))
+    # ), np.zeros((n_subjs, n_trials))
 
     id_chosen_chs = raw.chanel_selection(sel_chs)
-    for s in range(n_subjs):
-        X_train, y_train, X_test, y_test = __load_MBDEPV1(
-            raw_path, s + 1, pick_smp_freq, num_class, id_chosen_chs
-        )
-        X_train_all[s], y_train_all[s] = X_train, y_train
-        X_test_all[s], y_test_all[s] = X_test, y_test
 
-    for directory in [save_path]:
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+    X_train_all, y_train_all, X_test_all, y_test_all= __load_MBDEPV1(
+        raw_path, s + 1, pick_smp_freq, num_class, id_chosen_chs
+    )
+    X_train_all = X_train_all.reshape(1, *X_train_all.shape)
+    X_test_all = X_test_all.reshape(1, *X_test_all.shape)
+    y_train_all = y_train_all.reshape(1, *y_train_all.shape)
+    y_test_all = y_test_all.reshape(1, *y_test_all.shape)
+
+    # for s in range(n_subjs):
+    #     X_train, y_train, X_test, y_test = __load_MBDEPV1(
+    #         raw_path, s + 1, pick_smp_freq, num_class, id_chosen_chs
+    #     )
+    #     X_train_all[s], y_train_all[s] = X_train, y_train
+    #     X_test_all[s], y_test_all[s] = X_test, y_test
+
+    # for directory in [save_path]:
+    #     if not os.path.exists(directory):
+    #         os.makedirs(directory)
 
     # Carry out subject-dependent setting with 5-fold cross validation
     for person, (X_tr, y_tr, X_te, y_te) in enumerate(
