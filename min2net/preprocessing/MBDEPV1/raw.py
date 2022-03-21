@@ -67,13 +67,14 @@ def load_crop_data(PATH, subject, start, stop, new_smp_freq, num_class, id_chose
     )
     print(len(EEG_train))
     print(EEG_train.shape)
-    EEG_test, y_te = read_raw(
-        PATH=PATH,
-        subject=subject,
-        training=False,
-        num_class=num_class,
-        id_chosen_chs=id_chosen_chs,
-    )
+    # EEG_test, y_te = read_raw(
+    #     PATH=PATH,
+    #     subject=subject,
+    #     training=False,
+    #     num_class=num_class,
+    #     id_chosen_chs=id_chosen_chs,
+    # )
+    EEG_test, y_te = EEG_train, y_tr
     if new_smp_freq < orig_smp_freq:
         EEG_train = resampling(EEG_train, new_smp_freq, trial_len)
         EEG_test = resampling(EEG_test, new_smp_freq, trial_len)
