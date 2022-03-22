@@ -151,7 +151,7 @@ class EEGNet:
         model.fit(X_train, y_train,
                   batch_size=self.batch_size, shuffle=self.shuffle,
                   epochs=self.epochs, validation_data=(X_val, y_val), class_weight=self.class_weight,
-                  callbacks=[,csv_logger,reduce_lr,es, time_callback])
+                  callbacks=[csv_logger,reduce_lr,es, time_callback])
 
     def predict(self, X_test, y_test):
 
