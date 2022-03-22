@@ -164,8 +164,8 @@ class DeepConvNet:
         
         csv_logger = CSVLogger(self.csv_dir)
         time_callback = TimeHistory(self.time_log)
-        checkpointer = ModelCheckpoint(monitor=self.monitor, filepath=self.weights_dir, verbose=self.verbose, 
-                                       save_best_only=self.save_best_only, save_weight_only=self.save_weight_only)
+        # checkpointer = ModelCheckpoint(monitor=self.monitor, filepath=self.weights_dir, verbose=self.verbose, 
+        #                                save_best_only=self.save_best_only, save_weight_only=self.save_weight_only)
         reduce_lr = ReduceLROnPlateau(monitor=self.monitor, patience=self.patience, factor=self.factor, mode=self.mode, 
                                       verbose=self.verbose, min_lr=self.min_lr)
         es = EarlyStopping(monitor=self.monitor, mode=self.mode, verbose=self.verbose, patience=self.es_patience)
@@ -182,7 +182,7 @@ class DeepConvNet:
         model.fit(X_train, y_train,
                   batch_size=self.batch_size, shuffle=self.shuffle,
                   epochs=self.epochs, validation_data=(X_val, y_val), class_weight=self.class_weight,
-                  callbacks=[checkpointer,csv_logger,reduce_lr,es, time_callback])
+                  callbacks=[csv_logger,reduce_lr,es, time_callback])
 
     def predict(self, X_test, y_test):
 
