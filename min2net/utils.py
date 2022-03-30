@@ -113,7 +113,7 @@ def load_raw(dataset):
             )
     elif dataset == "MBDMNIST17":
         try:
-            save_path = folder_name + "/" + "MBDMNIST17" + "/raw"
+            save_path = folder_name + "/" + "MBDMNISTv17" + "/raw"
             if save_path is not None:
                 if not os.path.exists(save_path):
                     os.makedirs(save_path)
