@@ -111,9 +111,9 @@ def load_raw(dataset):
             raise Exception(
                 "Path Error: file does not exist, please direccly download at http://bnci-horizon-2020.eu/database/data-sets"
             )
-    elif dataset == "MBDMNISTv17":
+    elif dataset == "MBDMNIST17":
         try:
-            save_path = folder_name + "/" + dataset + "/raw"
+            save_path = folder_name + "/" + "MBDMNIST17" + "/raw"
             if save_path is not None:
                 if not os.path.exists(save_path):
                     os.makedirs(save_path)
