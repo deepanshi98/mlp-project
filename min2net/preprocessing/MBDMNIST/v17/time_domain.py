@@ -67,7 +67,7 @@ def subject_dependent_setting(k_folds, pick_smp_freq, bands, order, save_path, n
 def __load_MBDMNIST17(PATH, subject, new_smp_freq, num_class, id_chosen_chs):
     start = CONSTANT['MI']['start'] # 0
     stop = CONSTANT['MI']['stop'] # 2
-    X_train, y_tr, X_test, y_te = raw.load_crop_data(
+    X_train, _, y_tr, X_test, _, y_te = raw.load_crop_data(
         PATH=PATH, subject=subject, start=start, stop=stop, new_smp_freq=new_smp_freq, num_class=num_class, id_chosen_chs=id_chosen_chs)
     return X_train, y_tr, X_test, y_te
 
